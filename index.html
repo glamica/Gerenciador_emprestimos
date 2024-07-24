@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerente de emprestimos (prototipo)</title>
+    <style>
+        .overflow-scroll {
+            width: 100vw;
+            overflow: scroll;
+        }
+        form {
+            
+            width: 350px;
+        }
+        form div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <div>
+            <label>Data emprestimo:</label>
+            <input type="datetime" name="" id="data">
+        </div>
+        <div><label>Nº</label><input type="number" id="numero"></div>
+        <div><label>Responsavel</label><input type="text"></div>
+        <div><label>Usuario (quem usara)</label><input type="text" id="usuario"></div>
+        <div><label>Hora [Retirada]</label><input type="datetime" id="data devolução"></div>
+    </form>
+    <div class="overflow-scroll">
+        <table id="display">
+            <thead>
+                <tr>
+                    <th>Nº</th>
+                    <th>Responsavel</th>
+                    <th>com quem esta</th>
+                    <th>Horario [Retirada]</th>
+                </tr>
+            </thead>
+            <tbody>
+    
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
