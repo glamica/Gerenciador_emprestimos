@@ -10,8 +10,7 @@
             overflow: scroll;
         }
         form {
-            
-            width: 350px;
+            width: 400px;
         }
         form div {
             display: flex;
@@ -21,7 +20,10 @@
             padding: 5px;
         }
         form div input {
-            padding: 3px
+            padding-right: 3px;
+        }
+        form div label {
+            padding-left: 10px;
         }
         table#display, thead * * {
             width: calc(100vw - 6px);
@@ -87,11 +89,14 @@
         item.val('')
         return ret
     }
-    function update_table(condition) {
+    function update_table(condition={}) {
+        let returnset = ''
         for (c in items) {
             for (t in condition) {
-                
+                if (items[c][t] != condition[t]) {break}
             }
+            let r = items[c]
+            console.log(r)
         }
     }
     $(document).ready(function () {
@@ -99,6 +104,7 @@
             let o =  {numero: pop_text('#numero'),maquina: pop_text('#maquina'),resposta: pop_text('#responsavel'),usurio: pop_text('#usuario'),hora_retirada: new Date()}
             items.push(o)
             console.log(o)
+            update_table()
         })
     })
 </script>
