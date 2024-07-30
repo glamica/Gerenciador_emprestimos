@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +10,11 @@
             width: 100vw;
             overflow: scroll;
         }
+
         form {
             width: 400px;
         }
+
         form div {
             display: flex;
             flex-direction: row;
@@ -19,27 +22,34 @@
             width: 100%;
             padding: 5px;
         }
+
         form div input {
             padding-right: 3px;
         }
+
         form div label {
             padding-left: 10px;
         }
-        table#display, thead * * {
+
+        table#display,
+        thead * * {
             width: calc(100vw - 6px);
             padding: 5px;
             border-radius: 3px;
             background-color: rgba(255, 0, 0, 0.31);
         }
+
         table#display tbody * * {
             background-color: rgba(255, 255, 255, 0.106);
         }
+
         table#display {
             padding-top: 2px;
             margin-top: 10px;
         }
     </style>
 </head>
+
 <body>
     <form>
         <div>
@@ -58,10 +68,11 @@
             <label>Usuario (quem usara)</label>
             <input type="text" id="usuario">
         </div>
-        
+
     </form>
     <button id="buscar">buscar</button>
     <button id="adicionar">adicionar</button>
+    <button id="reiniciar">recarregar tabela</button>
     <div class="overflow-scroll">
         <table id="display">
             <thead>
@@ -74,38 +85,108 @@
                 </tr>
             </thead>
             <tbody>
-    
+
             </tbody>
         </table>
     </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
     let items = []
     function pop_text(ender) {
         const item = $(ender)
         let ret = item.val()
-        console.log('ret',ret)
+        console.log('ret', ret)
         item.val('')
         return ret
     }
-    function update_table(condition={}) {
+    function find(view) {
+        function finder(view,item) {
+            for (c in item) {
+                let it = item[c]
+                let r = new String(it).includes(view)
+                console.log("finder it",`"${it}"`,r,c,`#"${view}"`)
+                if (r) {
+                    return true
+                }
+            }
+            return false
+        }
         let returnset = ''
+        $('#display tbody').html("")
+        console.clear()
+        for (c in items) {
+            let item = items[c]
+            console.log('item',item)
+            if (finder(view,item)) {
+                returnset += `\n                <tr>
+                        <th>
+                            ${item['numero']}
+                        </th>
+                        <th>
+                            ${item['maquina']}
+                        </th>
+                        <th>
+                            ${item['responsavel']}
+                        </th>
+                        <th>
+                            ${item['usuario']}
+                        </th>
+                        <th>
+                            ${item['hora_retirada']}
+                        </th>
+                    </tr>`
+                    console.log("&", item)
+            }
+            
+        }
+        $('#display tbody').html(returnset)
+    }
+    function update_table(condition = {}) {
+        let returnset = ''
+        $('#display tbody').html("")
         for (c in items) {
             for (t in condition) {
-                if (items[c][t] != condition[t]) {break}
+                if (items[c][t] != condition[t]) { break }
             }
-            let r = items[c]
-            console.log(r)
+
+            let item = items[c]
+            returnset += `\n                <tr>
+                    <th>
+                        ${item['numero']}
+                    </th>
+                    <th>
+                        ${item['maquina']}
+                    </th>
+                    <th>
+                        ${item['responsavel']}
+                    </th>
+                    <th>
+                        ${item['usuario']}
+                    </th>
+                    <th>
+                        ${item['hora_retirada']}
+                    </th>
+                </tr>`
+            console.log("&", item)
         }
+        $('#display tbody').html(returnset)
     }
     $(document).ready(function () {
         $('button#adicionar').click(function () {
-            let o =  {numero: pop_text('#numero'),maquina: pop_text('#maquina'),resposta: pop_text('#responsavel'),usurio: pop_text('#usuario'),hora_retirada: new Date()}
+            let o = { numero: pop_text('#numero'), maquina: pop_text('#maquina'), responsavel: pop_text('#responsavel'), usuario: pop_text('#usuario'), hora_retirada: new Date() }
             items.push(o)
             console.log(o)
             update_table()
         })
+        $('button#buscar').click(function () {
+            let r = prompt("buscar por:")
+            r = new String(r)
+            find(r)
+        })
+        $("button#reiniciar").click(() => {update_table()})
     })
 </script>
+
 </html>
