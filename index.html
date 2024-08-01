@@ -94,12 +94,33 @@
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
     let items = []
+    function DTtoSTR (dt) {
+        const data = new Date(dt)
+        let dia = data.getDate()
+        let mes = data.getMonth() + 1 // Meses são indexados a partir de 0
+        let ano = data.getFullYear()
+        let horas = data.getHours()
+        let minutos = data.getMinutes()
+        let segundos = data.getSeconds()
+        horas = horas.toString().padStart(2, '0')
+        minutos = minutos.toString().padStart(2, '0')
+        segundos = segundos.toString().padStart(2, '0')
+        mes = mes.toString().padStart(2, '0')
+        dia = dia.toString().padStart(2, '0')
+        return `${dia}/${mes}/${ano} ${horas}:${minutos}:${segundos}`
+    }
+
     function pop_text(ender) {
         const item = $(ender)
-        let ret = item.val()
+        let ret = item.val()    
         console.log('ret', ret)
         item.val('')
-        return ret
+        if (ret.lenght > 0) {
+            return ret
+        } 
+        else {
+            throw new Error("Erro de entrada")
+        }
     }
     function find(view) {
         function finder(view,item) {
@@ -134,7 +155,7 @@
                             ${item['usuario']}
                         </th>
                         <th>
-                            ${item['hora_retirada']}
+                            ${DTtoSTR(item['hora_retirada'])}
                         </th>
                     </tr>`
                     console.log("&", item)
@@ -166,7 +187,7 @@
                         ${item['usuario']}
                     </th>
                     <th>
-                        ${item['hora_retirada']}
+                        ${DTtoSTR(item['hora_retirada'])}
                     </th>
                 </tr>`
             console.log("&", item)
@@ -175,10 +196,15 @@
     }
     $(document).ready(function () {
         $('button#adicionar').click(function () {
-            let o = { numero: pop_text('#numero'), maquina: pop_text('#maquina'), responsavel: pop_text('#responsavel'), usuario: pop_text('#usuario'), hora_retirada: new Date() }
-            items.push(o)
-            console.log(o)
-            update_table()
+            try {
+                let o = { numero: pop_text('#numero'), maquina: pop_text('#maquina'), responsavel: pop_text('#responsavel'), usuario: pop_text('#usuario'), hora_retirada: new Date() }
+                items.push(o)
+                console.log(o)
+                update_table()
+            } 
+            catch {
+                
+            }
         })
         $('button#buscar').click(function () {
             let r = prompt("buscar por:")
