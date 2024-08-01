@@ -115,7 +115,7 @@
         let ret = item.val()    
         console.log('ret', ret)
         item.val('')
-        if (ret.lenght > 0) {
+        if (ret.lenght < 0) {
             return ret
         } 
         else {
@@ -197,13 +197,20 @@
     $(document).ready(function () {
         $('button#adicionar').click(function () {
             try {
-                let o = { numero: pop_text('#numero'), maquina: pop_text('#maquina'), responsavel: pop_text('#responsavel'), usuario: pop_text('#usuario'), hora_retirada: new Date() }
+                let o = { 
+                    numero: pop_text('#numero'),
+                    maquina: pop_text('#maquina'),
+                    responsavel: pop_text('#responsavel'), 
+                    usuario: pop_text('#usuario'), 
+                    hora_retirada: new Date() 
+                }
                 items.push(o)
                 console.log(o)
                 update_table()
             } 
-            catch {
-                
+            catch (ex) {
+                throw ex
+                alert("Não é possivel inserir um emprestimo com campos não preenchidos")
             }
         })
         $('button#buscar').click(function () {
