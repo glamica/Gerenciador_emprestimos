@@ -112,15 +112,10 @@
 
     function pop_text(ender) {
         const item = $(ender)
-        let ret = item.val()    
+        const ret = item.val()    
         console.log('ret', ret)
         item.val('')
-        if (ret.lenght < 0) {
-            return ret
-        } 
-        else {
-            throw new Error("Erro de entrada")
-        }
+        return ret
     }
     function find(view) {
         function finder(view,item) {
